@@ -21,6 +21,9 @@ export default function RootLayout({ children }) {
                 <div>
                   <ul className="flex flex-row gap-6">
                     <li>
+                      <a href="/admin/message">Message</a>
+                    </li>
+                    <li>
                       <a href="/admin/work">Work</a>
                     </li>
                   </ul>

@@ -15,22 +15,32 @@ export default async function handler(
     case "POST":
       try {
         const body = JSON.parse(req.body);
+        // Directly destructure Nama and email from req.body
+        // const { body.Nama, body.Email, Subject, Message } = req.body;
         if (typeof body !== "object") {
           throw new Error("invalid request");
         }
 
-        if (body.title == "") {
-          throw new Error("title is required");
+        if (body.Nama == "" || body.Nama == null) {
+          throw new Error("Nama is required");
         }
-        let myWork = await db.collection("work").insertOne(body);
-        res.json({ data: myWork });
+        const Nama = body.Nama;
+        const Email = body.Email;
+        const Subject = body.Subject;
+        const Message = body.Message;
+
+         // Create an object with only the required fields
+         const newMessage = { Nama, Email, Subject, Message };
+
+        let myMessage = await db.collection("message").insertOne(newMessage);
+        res.json({ data: myMessage });
       } catch (err) {
         res.status(422).json({ message: err.message });
       }
       break;
 
     case "GET":
-      const allPosts = await db.collection("work").find({}).toArray();
+      const allPosts = await db.collection("message").find({}).toArray();
       res.json({ data: allPosts });
       break;
     default:
